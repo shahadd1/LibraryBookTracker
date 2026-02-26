@@ -4,55 +4,56 @@
  */
 package librarybooktracker;
 
-/**
- *
- * @author shaha
- */
-
 import java.io.*;
 import java.util.*;
 import java.time.LocalDateTime;
 
 public class LibraryBookTracker {
 
-    private static int validRecords = 0;
-    private static int errors = 0;
-    private static int searchResults = 0;
-    private static int booksAdded = 0;
+    public static int validRecords = 0;
+    public static int errors = 0;
+    public static int searchResults = 0;
+    public static int booksAdded = 0;
 
     public static void main(String[] args) {
 
-        try {
+    try {
 
-            checkArguments(args);
+        checkArguments(args);
 
-            String filePath = args[0];
-            String operation = args[1];
+        String filePath = args[0];
+        String operation = args[1];
 
-            File file = prepareFile(filePath);
+        File file = prepareFile(filePath);
 
-            List<Book> books = readBooks(file);
+        List<Book> books = new ArrayList<>();
 
-            if (operation.matches("\\d{13}")) {
-                searchByISBN(books, operation);
-            }
-            else if (operation.contains(":")) {
-                addBook(books, operation, file);
-            }
-            else {
-                searchByTitle(books, operation);
-            }
+        //  Thread 1  
+        FileReaderTask fileTask = new FileReaderTask(file, books);
+        Thread fileThread = new Thread(fileTask);
 
-            printStatistics();
+        fileThread.start();
+        fileThread.join();   // WAIT Thread 1
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            System.out.println("Thank you for using the Library Book Tracker.");
-        }
+        //  Thread 2 
+        OperationAnalyzerTask opTask =
+                new OperationAnalyzerTask(books, operation, file);
+
+        Thread opThread = new Thread(opTask);
+
+        opThread.start();
+        opThread.join();     // WAIT Thread 2
+
+        printStatistics();
+
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    } finally {
+        System.out.println("Thank you for using the Library Book Tracker.");
     }
+}
 
-    private static void checkArguments(String[] args)
+    public  static void checkArguments(String[] args)
             throws InsufficientArgumentsException, InvalidFileNameException {
 
         if (args.length < 2)
@@ -62,7 +63,7 @@ public class LibraryBookTracker {
             throw new InvalidFileNameException("File must end with .txt");
     }
 
-    private static File prepareFile(String path) throws IOException {
+    public  static File prepareFile(String path) throws IOException {
 
         File file = new File(path);
 
@@ -75,7 +76,7 @@ public class LibraryBookTracker {
         return file;
     }
 
-    private static List<Book> readBooks(File file) throws IOException {
+    public static List<Book> readBooks(File file) throws IOException {
 
         List<Book> books = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -97,7 +98,7 @@ public class LibraryBookTracker {
         return books;
     }
 
-    private static Book parseBook(String line)
+    public  static Book parseBook(String line)
             throws BookCatalogException {
 
         String[] parts = line.split(":");
@@ -129,7 +130,7 @@ public class LibraryBookTracker {
         return new Book(title, author, isbn, copies);
     }
 
-    private static void searchByTitle(List<Book> books, String keyword) {
+    public static void searchByTitle(List<Book> books, String keyword) {
 
         printHeader();
 
@@ -143,7 +144,7 @@ public class LibraryBookTracker {
         }
     }
 
-    private static void searchByISBN(List<Book> books, String isbn)
+    public static void searchByISBN(List<Book> books, String isbn)
             throws DuplicateISBNException {
 
         printHeader();
@@ -163,7 +164,7 @@ public class LibraryBookTracker {
         searchResults = count;
     }
 
-    private static void addBook(List<Book> books,
+    public static void addBook(List<Book> books,
                                 String record,
                                 File file)
             throws Exception {
@@ -192,7 +193,7 @@ public class LibraryBookTracker {
         System.out.println(newBook);
     }
 
-    private static void logError(String text,
+    public static void logError(String text,
                                  String message,
                                  File file) {
 
@@ -212,16 +213,19 @@ public class LibraryBookTracker {
         }
     }
 
-    private static void printHeader() {
+    public static void printHeader() {
         System.out.printf("%-30s %-20s %-15s %5s%n",
                 "Title", "Author", "ISBN", "Copies");
 
     }
 
-    private static void printStatistics() {
+    public static void printStatistics() {
         System.out.println("\nValid records processed: " + validRecords);
         System.out.println("Search results: " + searchResults);
         System.out.println("Books added: " + booksAdded);
         System.out.println("Errors encountered: " + errors);
     }
 }
+
+
+

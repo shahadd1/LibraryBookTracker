@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/Book.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/FileReaderTask.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/BookCatalogException.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/InvalidFileNameException.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/DuplicateISBNException.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/OperationAnalyzerTask.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/MalformedBookEntryException.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/InsufficientArgumentsException.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/InvalidISBNException.java</file>
+            <file>file:/C:/Users/shaha/OneDrive/المستندات/NetBeansProjects/LibraryBookTracker/src/librarybooktracker/LibraryBookTracker.java</file>
+        </group>
+    </open-files>
+</project-private>
